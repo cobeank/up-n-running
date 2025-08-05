@@ -1,9 +1,8 @@
 resource "aws_instance" "awslab" {
-  ami           = aws_ami.amzn-linux-2023-ami.id
+  ami           = "ami-0ca5a2f40c2601df6"
   instance_type = "t2.micro"
-  subnet_id     = aws_subnet.aws_lab_subnet.id
 
   tags = {
-    Name = "tf-example"
+    Name = "web-server1"
   }
 }
