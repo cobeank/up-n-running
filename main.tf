@@ -115,21 +115,21 @@ resource "aws_instance" "awslab" {
   user_data = <<-EOF
     #!/bin/bash -x
     apt update
-    apt install apache2
-    echo "<VirtualHost *:8080> > /etc/apache2/sites-available/000-default.conf
-    echo "ServerAdmin webmaster@localhost" >> /etc/apache2/sites-available/000-default.conf
-    echo "DocumentRoot /var/www/html" >> 
-    echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf
-    echo "Listen 8080" > /etc/apache2/ports.conf
-    echo "<IfModule ssl_module>" >> /etc/apache2/ports.conf
-    echo "Listen 443" >> /etc/apache2/ports.conf
-    echo "</IfModule>" >> /etc/apache2/ports.conf
-    echo "<IfModule mod_gnutls.c> >> /etc/apache2/ports.conf
-    echo " Listen 443" >> /etc/apache2/ports.conf
-    echo "</IfModule>" >> /etc/apache2/ports.conf
-    echo "Hello, World, It's Kelly" > /var/www/html/index.html
+    echo "<VirtualHost *:8080>" | tee /etc/apache2/sites-available/000-default.conf
+    echo "ServerAdmin webmaster@localhost" | tee -a /etc/apache2/sites-available/000-default.conf
+    echo "DocumentRoot /var/www/html" | tee -a /etc/apache2/sites-available/000-default.conf 
+    echo "</VirtualHost>" | tee -a /etc/apache2/sites-available/000-default.conf
+    echo "Listen 8080" | tee /etc/apache2/ports.conf
+    echo "<IfModule ssl_module>" | tee -a /etc/apache2/ports.conf
+    echo "Listen 443" | tee -a /etc/apache2/ports.conf
+    echo "</IfModule>" | tee -a /etc/apache2/ports.conf
+    echo "<IfModule mod_gnutls.c>" | tee -a /etc/apache2/ports.conf
+    echo " Listen 443" | tee -a /etc/apache2/ports.conf
+    echo "</IfModule>" | tee -a /etc/apache2/ports.conf
+    echo "Hello, World, It's Kelly" | tee /var/www/html/index.html
+    echo "And this is Terraform" | tee -a /var/www/html/index.html
     systemctl restart apache2
-    systemctl restart apache2
+    
     EOF
 
   user_data_replace_on_change = true
