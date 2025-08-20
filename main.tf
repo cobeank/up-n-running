@@ -131,7 +131,8 @@ resource "aws_instance" "awslab" {
     echo "</IfModule>" >> /etc/apache2/ports.conf
     echo "Hello, World, It's Kelly" > /var/www/html/index.html
     systemctl restart apache2
+    systemctl restart apache2
     EOF
-    
+
   user_data_replace_on_change = true
 }
