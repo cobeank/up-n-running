@@ -109,8 +109,6 @@ resource "aws_instance" "awslab" {
     Name = "web-server1"
   }
 
-  resource ""
-
   depends_on = [aws_internet_gateway.inet_gw]
 
 
