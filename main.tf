@@ -17,6 +17,26 @@ resource "aws_subnet" "web_subnet" {
   }
 }
 
+resource "aws_subnet" "app_subnet" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "app_server_subnet"
+  }
+}
+
+resource "aws_subnet" "db_subnet" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.3.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "db_server_subnet"
+  }
+}
+
 resource "aws_internet_gateway" "inet_gw" {
   vpc_id = aws_vpc.main.id
 
@@ -89,6 +109,8 @@ resource "aws_instance" "awslab" {
     Name = "web-server1"
   }
 
+  resource ""
+
   depends_on = [aws_internet_gateway.inet_gw]
 
 
@@ -96,11 +118,20 @@ resource "aws_instance" "awslab" {
     #!/bin/bash -x
     apt update
     apt install apache2
-    echo "<VirtualHost *:8080>\nServerAdmin webmaster@localhost\nDocumentRoot /var/www/html\n</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
-    echo "Listen 8080\<IfModule ssl_module>\Listen 443\</IfModule>\<IfModule mod_gnutls.c>\Listen 443\</IfModule> > /etc/apache2/ports.conf
+    echo "<VirtualHost *:8080> > /etc/apache2/sites-available/000-default.conf
+    echo "ServerAdmin webmaster@localhost" >> /etc/apache2/sites-available/000-default.conf
+    echo "DocumentRoot /var/www/html" >> 
+    echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf
+    echo "Listen 8080" > /etc/apache2/ports.conf
+    echo "<IfModule ssl_module>" >> /etc/apache2/ports.conf
+    echo "Listen 443" >> /etc/apache2/ports.conf
+    echo "</IfModule>" >> /etc/apache2/ports.conf
+    echo "<IfModule mod_gnutls.c> >> /etc/apache2/ports.conf
+    echo " Listen 443" >> /etc/apache2/ports.conf
+    echo "</IfModule>" >> /etc/apache2/ports.conf
     echo "Hello, World, It's Kelly" > /var/www/html/index.html
     systemctl restart apache2
     EOF
-
+    
   user_data_replace_on_change = true
 }
