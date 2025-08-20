@@ -128,7 +128,7 @@ resource "aws_instance" "awslab" {
     echo " Listen 443" | tee -a /etc/apache2/ports.conf
     echo "</IfModule>" | tee -a /etc/apache2/ports.conf
     echo "Hello, World, It's Kelly" | tee /var/www/html/index.html
-    echo "And this is Terraform" | tee -a /var/www/html/index.html
+    echo "And this was Terraform" | tee -a /var/www/html/index.html
     systemctl restart apache2
     
     EOF
