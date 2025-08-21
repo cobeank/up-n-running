@@ -1,3 +1,9 @@
+variable "web_server_port" {
+  description = "TCP Port number for Apache2"
+  type        = number
+  default     = 8080
+}
+
 resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
   instance_tenancy = "default"
@@ -77,8 +83,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ingress_icmp" {
 resource "aws_vpc_security_group_ingress_rule" "allow_ingress_web_traffic" {
   security_group_id = aws_security_group.web_access.id
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 8080
-  to_port           = 8080
+  from_port         = var.web_server_port
+  to_port           = var.web_server_port
   ip_protocol       = "tcp"
 }
 
@@ -116,11 +122,11 @@ resource "aws_instance" "awslab" {
     #!/bin/bash -x
     apt update
     apt install apache2
-    echo "<VirtualHost *:8080>" | tee /etc/apache2/sites-available/000-default.conf
+    echo "<VirtualHost *:${web_server_port}>" | tee /etc/apache2/sites-available/000-default.conf
     echo "ServerAdmin webmaster@localhost" | tee -a /etc/apache2/sites-available/000-default.conf
     echo "DocumentRoot /var/www/html" | tee -a /etc/apache2/sites-available/000-default.conf 
     echo "</VirtualHost>" | tee -a /etc/apache2/sites-available/000-default.conf
-    echo "Listen 8080" | tee /etc/apache2/ports.conf
+    echo "Listen ${web_server_port}" | tee /etc/apache2/ports.conf
     echo "<IfModule ssl_module>" | tee -a /etc/apache2/ports.conf
     echo "Listen 443" | tee -a /etc/apache2/ports.conf
     echo "</IfModule>" | tee -a /etc/apache2/ports.conf
@@ -134,4 +140,8 @@ resource "aws_instance" "awslab" {
     EOF
 
   user_data_replace_on_change = true
+}
+output "web_server_public_ip" {
+  value       = aws_instance.awslab.public_ip
+  description = "web server1 public IP"
 }
