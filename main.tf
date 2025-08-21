@@ -157,6 +157,6 @@ output "aws_web_server_subnet" {
 }
 
 output "aws_security_group" {
-  value       = aws_security_group.web_access.vpc_id
+  value       = aws_security_group.web_access.description
   description = "Security Group"
 }
