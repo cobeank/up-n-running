@@ -155,3 +155,8 @@ output "aws_web_server_subnet" {
   value       = aws_subnet.web_subnet
   description = "The subnet for web servers"
 }
+
+output "aws_security_group" {
+  value       = aws_security_group.web_access.id
+  description = "Security Group"
+}
