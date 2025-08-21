@@ -155,3 +155,7 @@ output "aws_web_server_subnet" {
   value       = aws_subnet.web_subnet.cidr_block
   description = "The subnet for web servers"
 }
+
+output "security_group" {
+  value = aws_security_group.web_access.description
+}
