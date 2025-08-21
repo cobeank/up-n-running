@@ -157,5 +157,5 @@ output "aws_web_server_subnet" {
 }
 
 output "security_group" {
-  value = aws_vpc_security_group_ingress_rule.allow_ingress_ssh
+  value = aws_vpc_security_group_ingress_rule.allow_ingress_ssh.from_port
 }
