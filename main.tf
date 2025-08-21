@@ -122,11 +122,11 @@ resource "aws_instance" "awslab" {
     #!/bin/bash -x
     apt update
     apt install apache2
-    echo "<VirtualHost *:${web_server_port}>" | tee /etc/apache2/sites-available/000-default.conf
+    echo "<VirtualHost *:${var.web_server_port}>" | tee /etc/apache2/sites-available/000-default.conf
     echo "ServerAdmin webmaster@localhost" | tee -a /etc/apache2/sites-available/000-default.conf
     echo "DocumentRoot /var/www/html" | tee -a /etc/apache2/sites-available/000-default.conf 
     echo "</VirtualHost>" | tee -a /etc/apache2/sites-available/000-default.conf
-    echo "Listen ${web_server_port}" | tee /etc/apache2/ports.conf
+    echo "Listen ${var.web_server_port}" | tee /etc/apache2/ports.conf
     echo "<IfModule ssl_module>" | tee -a /etc/apache2/ports.conf
     echo "Listen 443" | tee -a /etc/apache2/ports.conf
     echo "</IfModule>" | tee -a /etc/apache2/ports.conf
