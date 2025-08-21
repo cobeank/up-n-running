@@ -146,7 +146,7 @@ output "web_server_public_ip" {
   description = "web server1 public IP"
 }
 
-output "web_server_public_ip" {
+output "web_server_private_ip" {
   value       = aws_instance.awslab.private_ip
   description = "web server subnet IP address"
 }
