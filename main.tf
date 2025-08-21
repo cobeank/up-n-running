@@ -156,7 +156,6 @@ output "aws_web_server_subnet" {
   description = "The subnet for web servers"
 }
 
-output "aws_security_group" {
-  value       = aws_security_group.web_access.description
-  description = "Security Group"
+output "aws_sg" {
+  value = aws_security_group.web_access.description
 }
